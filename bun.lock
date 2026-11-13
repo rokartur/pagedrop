@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "postplan",
+      "name": "pagedrop",
       "devDependencies": {
         "@types/bun": "^1.4.4",
       },

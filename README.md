@@ -1,16 +1,16 @@
-# postplan
+# pagedrop
 
 Publish a static HTML page and get a link back. A self-hosted take on
 [postplan.dev](https://postplan.dev): one Bun file, pages on disk, one token.
 
 ```sh
 # new page, random id
-curl --data-binary @plan.html -H "Authorization: Bearer $POSTPLAN_TOKEN" https://postplan.rokartur.com/
-# https://postplan.rokartur.com/k3x9Q2mf
+curl --data-binary @plan.html -H "Authorization: Bearer $PAGEDROP_TOKEN" https://pagedrop.rokartur.com/
+# https://pagedrop.rokartur.com/k3x9Q2mf
 
 # overwrite it, or publish under a chosen name
-curl --data-binary @plan.html -H "Authorization: Bearer $POSTPLAN_TOKEN" https://postplan.rokartur.com/k3x9Q2mf
-curl --data-binary @plan.html -H "Authorization: Bearer $POSTPLAN_TOKEN" https://postplan.rokartur.com/q3-plan
+curl --data-binary @plan.html -H "Authorization: Bearer $PAGEDROP_TOKEN" https://pagedrop.rokartur.com/k3x9Q2mf
+curl --data-binary @plan.html -H "Authorization: Bearer $PAGEDROP_TOKEN" https://pagedrop.rokartur.com/q3-plan
 ```
 
 Use `--data-binary`, not `curl -T`: on a URL ending in `/`, `-T` appends the
@@ -24,13 +24,13 @@ frames and forms are blocked. Images, fonts and media load from any `https:` or
 
 ## Environment
 
-- `POSTPLAN_TOKEN` (required): the upload token.
-- `PUBLIC_URL`: base of returned links, e.g. `https://postplan.rokartur.com`.
+- `PAGEDROP_TOKEN` (required): the upload token.
+- `PUBLIC_URL`: base of returned links, e.g. `https://pagedrop.rokartur.com`.
   Defaults to the request origin.
 - `DATA_DIR`: where pages live, `/data` by default. Mount a volume there.
 - `PORT`: `3000` by default.
 
 ```sh
 bun test
-POSTPLAN_TOKEN=dev DATA_DIR=./data bun server.ts
+PAGEDROP_TOKEN=dev DATA_DIR=./data bun server.ts
 ```

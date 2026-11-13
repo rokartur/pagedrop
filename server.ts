@@ -1,8 +1,8 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { rename } from "node:fs/promises";
 
-const token = process.env.POSTPLAN_TOKEN;
-if (!token) throw new Error("POSTPLAN_TOKEN is not set");
+const token = process.env.PAGEDROP_TOKEN;
+if (!token) throw new Error("PAGEDROP_TOKEN is not set");
 const dataDir = process.env.DATA_DIR ?? "/data";
 const publicUrl = process.env.PUBLIC_URL;
 
