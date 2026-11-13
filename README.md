@@ -33,6 +33,20 @@ echo https://pagedrop.example.com > ~/.config/pagedrop/url
 (umask 077 && echo "$PAGEDROP_TOKEN" > ~/.config/pagedrop/token)
 ```
 
+To set up the server and the skill in one go, paste this into your agent:
+
+```text
+Set up pagedrop (https://github.com/rokartur/pagedrop) for me.
+1. Generate the upload token straight into a file and never print it:
+   (umask 077 && mkdir -p ~/.config/pagedrop && openssl rand -hex 32 > ~/.config/pagedrop/token)
+2. Ask me where to host the server and which domain to use. Deploy the repo's
+   Dockerfile there with PAGEDROP_TOKEN set to the token, PUBLIC_URL set to the
+   public https URL, and a persistent volume mounted at /data. Port 3000.
+3. Write the public URL, without a trailing slash, to ~/.config/pagedrop/url.
+4. Install the skill: `bunx skills add rokartur/pagedrop --global --yes`.
+5. Use the pagedrop skill to publish a short test page and give me its link.
+```
+
 ## Environment
 
 - `PAGEDROP_TOKEN` (required): the upload token.
