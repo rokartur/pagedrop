@@ -1,4 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { rename } from "node:fs/promises";
 
 const token = process.env.POSTPLAN_TOKEN;
 if (!token) throw new Error("POSTPLAN_TOKEN is not set");
@@ -14,12 +15,14 @@ const csp = [
   "img-src https: data:",
   "font-src https: data:",
   "media-src https: data:",
+  "frame-ancestors 'none'",
 ].join("; ");
 
 const pagePath = /^\/([\w-]{1,64})$/;
 
 export default {
   port: Number(process.env.PORT ?? 3000),
+  maxRequestBodySize: 10 * 1024 * 1024,
   fetch(req: Request) {
     const url = new URL(req.url);
     if (req.method === "GET" || req.method === "HEAD") return servePage(url.pathname);
@@ -47,7 +50,10 @@ async function savePage(req: Request, url: URL) {
   if (!isAuthorized(req)) return new Response("Unauthorized\n", { status: 401 });
   const id = url.pathname === "/" ? randomBytes(6).toString("base64url") : url.pathname.match(pagePath)?.[1];
   if (!id) return notFound();
-  await Bun.write(`${dataDir}/${id}.html`, await req.arrayBuffer());
+  // Write then rename, so a reader never streams a half-written page during an overwrite.
+  const tmp = `${dataDir}/.${id}.${randomBytes(6).toString("hex")}.tmp`;
+  await Bun.write(tmp, await req.arrayBuffer());
+  await rename(tmp, `${dataDir}/${id}.html`);
   return new Response(`${publicUrl ?? url.origin}/${id}\n`);
 }
 
