@@ -22,6 +22,17 @@ scripts and styles run, but with an opaque origin, and external scripts, fetch,
 frames and forms are blocked. Images, fonts and media load from any `https:` or
 `data:` URL.
 
+## Agent skill
+
+`bunx skills add rokartur/pagedrop` installs a skill that lets coding agents
+publish pages. It reads your server from two files and asks for them on first use:
+
+```sh
+mkdir -p ~/.config/pagedrop
+echo https://pagedrop.example.com > ~/.config/pagedrop/url
+(umask 077 && echo "$PAGEDROP_TOKEN" > ~/.config/pagedrop/token)
+```
+
 ## Environment
 
 - `PAGEDROP_TOKEN` (required): the upload token.
