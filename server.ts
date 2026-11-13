@@ -19,6 +19,7 @@ const csp = [
 ].join("; ");
 
 const pagePath = /^\/([\w-]{1,64})$/;
+const favicon = Bun.file(`${import.meta.dir}/favicon.ico`);
 
 export default {
   port: Number(process.env.PORT ?? 3000),
@@ -32,6 +33,7 @@ export default {
 };
 
 async function servePage(pathname: string) {
+  if (pathname === "/favicon.ico") return new Response(favicon, { headers: { "Cache-Control": "public, max-age=86400" } });
   const id = pathname.match(pagePath)?.[1];
   if (!id) return notFound();
   const file = Bun.file(`${dataDir}/${id}.html`);

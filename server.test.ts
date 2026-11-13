@@ -44,6 +44,12 @@ test("upload to an existing id overwrites it", async () => {
   expect(await (await call("GET", "/q3-plan")).text()).toBe("v2");
 });
 
+test("favicon is served as an icon", async () => {
+  const res = await call("GET", "/favicon.ico");
+  expect(res.status).toBe(200);
+  expect(res.headers.get("Content-Type")).toContain("icon");
+});
+
 test("paths outside a plain id are not found", async () => {
   expect((await call("GET", "/missing")).status).toBe(404);
   expect((await call("GET", "/..%2Fserver")).status).toBe(404);
