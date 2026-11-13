@@ -22,29 +22,22 @@ scripts and styles run, but with an opaque origin, and external scripts, fetch,
 frames and forms are blocked. Images, fonts and media load from any `https:` or
 `data:` URL.
 
-## Agent skill
+## Set up with an agent
 
-`bunx skills add rokartur/pagedrop` installs a skill that lets coding agents
-publish pages. It reads your server from two files and asks for them on first use:
-
-```sh
-mkdir -p ~/.config/pagedrop
-echo https://pagedrop.example.com > ~/.config/pagedrop/url
-(umask 077 && echo "$PAGEDROP_TOKEN" > ~/.config/pagedrop/token)
-```
-
-To set up the server and the skill in one go, paste this into your agent:
+Paste this into your coding agent. It deploys the server, installs the agent
+skill and publishes a test page:
 
 ```text
-Set up pagedrop (https://github.com/rokartur/pagedrop) for me.
-1. Generate the upload token straight into a file and never print it:
-   (umask 077 && mkdir -p ~/.config/pagedrop && openssl rand -hex 32 > ~/.config/pagedrop/token)
-2. Ask me where to host the server and which domain to use. Deploy the repo's
-   Dockerfile there with PAGEDROP_TOKEN set to the token, PUBLIC_URL set to the
-   public https URL, and a persistent volume mounted at /data. Port 3000.
-3. Write the public URL, without a trailing slash, to ~/.config/pagedrop/url.
+Set up pagedrop (https://github.com/rokartur/pagedrop) for me:
+1. Generate an upload token with `openssl rand -hex 32` straight into
+   ~/.config/pagedrop/token, mode 600. Never print it.
+2. Ask me where to host the server and which domain to use. Deploy the
+   repo's Dockerfile there: PAGEDROP_TOKEN from that file, PUBLIC_URL set
+   to the public https URL, a persistent volume at /data, port 3000.
+3. Write the public URL, without a trailing slash, to
+   ~/.config/pagedrop/url.
 4. Install the skill: `bunx skills add rokartur/pagedrop --global --yes`.
-5. Use the pagedrop skill to publish a short test page and give me its link.
+5. Publish a short test page with the pagedrop skill and give me its link.
 ```
 
 ## Environment
